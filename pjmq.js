@@ -17,13 +17,13 @@
     queue: []
   };
   
-  // Method: jQuery.jqmq
+  // Method: pjmq
   // 
   // Create a new queue.
   // 
   // Usage:
   // 
-  // > var queueObj = jQuery.jqmq( options );
+  // > var queueObj = pjmq( options );
   // 
   // Arguments:
   // 
@@ -54,9 +54,9 @@
   // 
   // Returns:
   // 
-  //  (Object) a reference to the jqmq queue object.
+  //  (Object) a reference to the pjmq queue object.
   
-  jqmq = function( opts ) {
+  pjmq = function( opts ) {
     
     // The queue object to be returned.
     var self = {},
@@ -187,7 +187,7 @@
           }
           
           // Repeatedly loop if the delay is a number >= 0, otherwise wait for a
-          // jqmqNext() call.
+          // Next() call.
           if ( typeof delay === 'number' && delay >= 0 ) {
             recent = [];
             timeout_id = setTimeout( loopy, delay );
@@ -198,7 +198,7 @@
     
     // Method: queueObj.next
     // 
-    // Intended to be called from within the <jQuery.jqmq> callback, this method
+    // Intended to be called from within the <pjmq> callback, this method
     // will continue a queue with a delay of -1. This is most useful for queues
     // of asynchronous-but-serial actions, like AJAX requests that must execute
     // in order, but not overlap.
@@ -303,7 +303,7 @@
     // 
     // Options:
     // 
-    //   The delay, batch, callback and complete options from <jQuery.jqmq> can
+    //   The delay, batch, callback and complete options from <pjmq> can
     //   be updated. The queue and paused state can be changed using the other
     //   queueObj methods.
     // 
