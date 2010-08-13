@@ -1,17 +1,26 @@
 <html>
-<body>
-<script type="text/javascript" src="../../jquery.ba-jqmq.js"></script>
+<head>
+
+  <script type="text/javascript" src="../../shared/ba-debug.js"></script> 
+  <script type="text/javascript" src="../../shared/jquery-1.3.2.js"></script>
+  <script type="text/javascript" src="../../shared/prototype.js"></script>
+<script type="text/javascript" src="../../shared/SyntaxHighlighter/scripts/shCore.js"></script>
+<script type="text/javascript" src="../../shared/SyntaxHighlighter/scripts/shBrushJScript.js"></script>
+  <link rel="stylesheet" type="text/css" href="../../shared/SyntaxHighlighter/styles/shCore.css"> 
+  <link rel="stylesheet" type="text/css" href="../../shared/SyntaxHighlighter/styles/shThemeDefault.css"> 
+  <link rel="stylesheet" type="text/css" href="../index.css"> 
+<script type="text/javascript" src="../../pjmq.js"></script>
 <script type="text/javascript" language="javascript">
 
 // Create a "nav" link for this example.
 function nav( title, message, callback ) {
-  var n = $('#nav');
+  var n = jQuery('#nav');
   
   if ( n.find('a').length ) {
     n.append(' | ');
   }
   
-  $('<a href="#"/>')
+  jQuery('<a href="#"/>')
     .html( title )
     .appendTo( n )
     .click(function(){
@@ -26,36 +35,111 @@ function nav( title, message, callback ) {
 // Update the status in this example.
 var status_id;
 function status( txt ) {
-  $('#status').hide().html( txt || '' ).fadeIn( 'fast' );
+  jQuery('#status').hide().html( txt || '' ).fadeIn( 'fast' );
   
   status_id && clearTimeout( status_id );
   if ( txt ) {
-    status_id = setTimeout( function(){ $('#status').fadeOut(); }, 5000 );
+    status_id = setTimeout( function(){ jQuery('#status').fadeOut(); }, 5000 );
   }
 };
 
 // Update the queue size in this example.
 function set_size(){
-  $('#size').text( queue.size() );
+  jQuery('#size').text( queue.size() );
 };
 
 // Update the last item in this example.
 function set_last( item ) {
-  $('#last').text( item );
+  jQuery('#last').text( item );
 };
 
-$(function(){
+
+Event.observe(window, 'load', function() {  
+  
+  // Create a new queue.
+  window.queue = jqmq({
+    
+    // Queue items will be processed every 250 milliseconds.
+    delay: 250,
+    
+    // Process queue items one-at-a-time.
+    batch: 1,
+    
+    // For each queue item, execute this function.
+    callback: function( item ) {
+      jQuery('#output')
+        .append( '<span>' + item + '<\/span>' )
+        .find('.done')
+          .remove();
+      
+      // Update the "Size" display.
+      set_size();
+    },
+    
+    // When the queue completes naturally, execute this function.
+    complete: function(){
+      jQuery('#output').append( '<span class="done">done<\/span>' );
+    }
+  });
+  
+  // On mouseover, add an item to the queue.
+  jQuery('#items a').mouseover(function(){
+    var item = jQuery(this).text();
+    queue.add( item );
+    
+    // Update the "Last" display.
+    set_last( item );
+   
+    // Update the "Size" display.
+    set_size();
+  });
+  
+  // Bind queue actions to nav buttons.
+  
+  nav( 'Pause', 'Queue paused.', function(){
+    queue.pause();
+  });
+  
+  nav( 'Start', 'Queue started.', function(){
+    queue.start();
+  });
+  
+  nav( 'Clear', 'Queue cleared.', function(){
+    queue.clear();
+  });
+  
+  nav( 'Batch = 1', 'Queue batch size set to 1.', function(){
+    queue.update({ batch: 1 });
+  });
+  
+  nav( 'Batch = 4', 'Queue batch size set to 4.', function(){
+    queue.update({ batch: 4 });
+  });
+  
+  nav( 'Delay = 100', 'Queue delay set to 100.', function(){
+    queue.update({ delay: 100 });
+  });
+  
+  nav( 'Delay = 250', 'Queue delay set to 250.', function(){
+    queue.update({ delay: 250 });
+  });
+  
+});
+
+jQuery(function(){
   
   // Syntax highlighter.
   SyntaxHighlighter.highlight();
   
   // Prevent the default action on these links.
-  $('#items a').click(function(){
+  jQuery('#items a').click(function(){
     return false;
   });
   
 });
 
+
+console.log("parsing");
 </script>
 <style type="text/css" title="text/css">
 
@@ -145,7 +229,7 @@ lt. brown: #C4884F
 <body>
 
 <p>
-  With jQuery Message Queuingyou can
+  With Prototype Message Queuing you can
   throttle a large number of commands or requests, giving each request some breathing room. This can be useful
   for keeping large numbers of costly DOM manipulations from locking up the browser, or for firing off high
   volumes of serial tracking pixel requests.
