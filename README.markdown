@@ -1,6 +1,6 @@
 # Protoype Javascript Message Queuing #
 
-**Conversion Status** - Started, kinda. Nothing works
+**Conversion Status** - jqmq naively de-jQueried, throttling example working with prototype only
 
 This is a Prototype library based conversion of Ben Alman's [jQuery-Message-Queuing](http://github.com/cowboy/jquery-message-queuing)
 
@@ -10,7 +10,7 @@ This is a Prototype library based conversion of Ben Alman's [jQuery-Message-Queu
 ## Release History ##
 
 0.1   - (2010-08-13) Initial fork, Readme update
-
+0.2  -  (2010-08-13) naively de-queried jqmq, working throttling example
 
 ## License ##
 Copyright (c) 2010 "Cowboy" Ben Alman  
