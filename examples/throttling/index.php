@@ -1,98 +1,5 @@
-<?PHP
-
-include "../index.php";
-
-$shell['title3'] = "Throttling";
-
-$shell['h2'] = 'Get all your JavaScript ducks in a row.';
-
-// ========================================================================== //
-// SCRIPT
-// ========================================================================== //
-
-ob_start();
-?>
-$(function(){
-  
-  // Create a new queue.
-  window.queue = $.jqmq({
-    
-    // Queue items will be processed every 250 milliseconds.
-    delay: 250,
-    
-    // Process queue items one-at-a-time.
-    batch: 1,
-    
-    // For each queue item, execute this function.
-    callback: function( item ) {
-      $('#output')
-        .append( '<span>' + item + '<\/span>' )
-        .find('.done')
-          .remove();
-      
-      // Update the "Size" display.
-      set_size();
-    },
-    
-    // When the queue completes naturally, execute this function.
-    complete: function(){
-      $('#output').append( '<span class="done">done<\/span>' );
-    }
-  });
-  
-  // On mouseover, add an item to the queue.
-  $('#items a').mouseover(function(){
-    var item = $(this).text();
-    queue.add( item );
-    
-    // Update the "Last" display.
-    set_last( item );
-    
-    // Update the "Size" display.
-    set_size();
-  });
-  
-  // Bind queue actions to nav buttons.
-  
-  nav( 'Pause', 'Queue paused.', function(){
-    queue.pause();
-  });
-  
-  nav( 'Start', 'Queue started.', function(){
-    queue.start();
-  });
-  
-  nav( 'Clear', 'Queue cleared.', function(){
-    queue.clear();
-  });
-  
-  nav( 'Batch = 1', 'Queue batch size set to 1.', function(){
-    queue.update({ batch: 1 });
-  });
-  
-  nav( 'Batch = 4', 'Queue batch size set to 4.', function(){
-    queue.update({ batch: 4 });
-  });
-  
-  nav( 'Delay = 100', 'Queue delay set to 100.', function(){
-    queue.update({ delay: 100 });
-  });
-  
-  nav( 'Delay = 250', 'Queue delay set to 250.', function(){
-    queue.update({ delay: 250 });
-  });
-  
-});
-<?
-$shell['script'] = ob_get_contents();
-ob_end_clean();
-
-// ========================================================================== //
-// HTML HEAD ADDITIONAL
-// ========================================================================== //
-
-ob_start();
-?>
+<html>
+<body>
 <script type="text/javascript" src="../../jquery.ba-jqmq.js"></script>
 <script type="text/javascript" language="javascript">
 
@@ -136,8 +43,6 @@ function set_size(){
 function set_last( item ) {
   $('#last').text( item );
 };
-
-<?= $shell['script']; ?>
 
 $(function(){
   
@@ -234,20 +139,13 @@ lt. brown: #C4884F
 }
 
 </style>
-<?
-$shell['html_head'] = ob_get_contents();
-ob_end_clean();
 
-// ========================================================================== //
-// HTML BODY
-// ========================================================================== //
+</head>
 
-ob_start();
-?>
-<?= $shell['donate'] ?>
+<body>
 
 <p>
-  With <a href="http://benalman.com/projects/jquery-message-queueing-plugin/">jQuery Message Queuing</a> you can
+  With jQuery Message Queuingyou can
   throttle a large number of commands or requests, giving each request some breathing room. This can be useful
   for keeping large numbers of costly DOM manipulations from locking up the browser, or for firing off high
   volumes of serial tracking pixel requests.
@@ -317,17 +215,8 @@ ob_start();
 <h3 class="clear">The code</h3>
 
 <pre class="brush:js">
-<?= htmlspecialchars( $shell['script'] ); ?>
+function() {}
 </pre>
 
-<?
-$shell['html_body'] = ob_get_contents();
-ob_end_clean();
-
-// ========================================================================== //
-// DRAW SHELL
-// ========================================================================== //
-
-draw_shell();
-
-?>
+</body>
+</html>
