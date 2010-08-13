@@ -1,56 +1,44 @@
 <html>
 <head>
 
-  <script type="text/javascript" src="../../shared/ba-debug.js"></script> 
-  <script type="text/javascript" src="../../shared/jquery-1.3.2.js"></script>
   <script type="text/javascript" src="../../shared/prototype.js"></script>
-<script type="text/javascript" src="../../shared/SyntaxHighlighter/scripts/shCore.js"></script>
-<script type="text/javascript" src="../../shared/SyntaxHighlighter/scripts/shBrushJScript.js"></script>
-  <link rel="stylesheet" type="text/css" href="../../shared/SyntaxHighlighter/styles/shCore.css"> 
-  <link rel="stylesheet" type="text/css" href="../../shared/SyntaxHighlighter/styles/shThemeDefault.css"> 
   <link rel="stylesheet" type="text/css" href="../index.css"> 
 <script type="text/javascript" src="../../pjmq.js"></script>
 <script type="text/javascript" language="javascript">
 
 // Create a "nav" link for this example.
 function nav( title, message, callback ) {
-  var n = jQuery('#nav');
+  var n = $$('#nav');
   
-  if ( n.find('a').length ) {
-    n.append(' | ');
+  if ( $$('#nav a').length ) {
+    Element.insert("nav"," | ");
   }
-  
-  jQuery('<a href="#"/>')
-    .html( title )
-    .appendTo( n )
-    .click(function(){
-      status( message );
-      callback();
-      set_size();
-      return false;
-    });
-  
+
+  var a = new Element('a', { 'class': 'foo', href: '#'}).update(title);
+  a.observe('click', function(){ console.log("click");
+        status( message );
+        callback();
+        set_size();
+        return false;
+      });
+  Element.insert("nav",a);
 };
 
 // Update the status in this example.
 var status_id;
 function status( txt ) {
-  jQuery('#status').hide().html( txt || '' ).fadeIn( 'fast' );
-  
+  $('status').innerHTML =  txt || '';
   status_id && clearTimeout( status_id );
-  if ( txt ) {
-    status_id = setTimeout( function(){ jQuery('#status').fadeOut(); }, 5000 );
-  }
 };
 
 // Update the queue size in this example.
 function set_size(){
-  jQuery('#size').text( queue.size() );
+  $('size').innerHTML = queue.size();
 };
 
 // Update the last item in this example.
 function set_last( item ) {
-  jQuery('#last').text( item );
+  $('last').innerHTML = item;
 };
 
 
@@ -67,31 +55,30 @@ Event.observe(window, 'load', function() {
     
     // For each queue item, execute this function.
     callback: function( item ) {
-      jQuery('#output')
-        .append( '<span>' + item + '<\/span>' )
-        .find('.done')
-          .remove();
-      
+      $('output').insert( '<span>' + item + '<\/span>' );
+
       // Update the "Size" display.
       set_size();
     },
     
     // When the queue completes naturally, execute this function.
     complete: function(){
-      jQuery('#output').append( '<span class="done">done<\/span>' );
+      Element.insert("output",'<span class="done">done<\/span>')
     }
   });
   
   // On mouseover, add an item to the queue.
-  jQuery('#items a').mouseover(function(){
-    var item = jQuery(this).text();
-    queue.add( item );
+  $$('#items a').each(function(item) {
+    $(item).observe("mouseover",function(){
+      var item = $(this).innerText;
+      queue.add( item );
     
-    // Update the "Last" display.
-    set_last( item );
+      // Update the "Last" display.
+      set_last( item );
    
-    // Update the "Size" display.
-    set_size();
+      // Update the "Size" display.
+      set_size();
+    });
   });
   
   // Bind queue actions to nav buttons.
@@ -125,19 +112,6 @@ Event.observe(window, 'load', function() {
   });
   
 });
-
-jQuery(function(){
-  
-  // Syntax highlighter.
-  SyntaxHighlighter.highlight();
-  
-  // Prevent the default action on these links.
-  jQuery('#items a').click(function(){
-    return false;
-  });
-  
-});
-
 
 console.log("parsing");
 </script>
@@ -295,12 +269,6 @@ lt. brown: #C4884F
     <span class="done">queue completed</span>
   </div>
 </div>
-
-<h3 class="clear">The code</h3>
-
-<pre class="brush:js">
-function() {}
-</pre>
 
 </body>
 </html>
