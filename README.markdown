@@ -10,7 +10,7 @@ This is a Prototype library based conversion of Ben Alman's [jQuery-Message-Queu
 ## Release History ##
 
 0.1   - (2010-08-13) Initial fork, Readme update
-0.2  -  (2010-08-13) naively de-queried jqmq, working throttling example
+0.2  -  (2010-08-13) naively de-jqueried jqmq, working throttling example
 
 ## License ##
 Copyright (c) 2010 "Cowboy" Ben Alman  
